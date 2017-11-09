@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.megabox.web.mapper.HSMapper">
+	<insert id="insert" parameterType="com.megabox.web.domain.Movie">
+	INSERT INTO reservation (id,screeningnumber,seat_seq,cancel)
+	VALUES(#{id},#{screeningNumber},#{seatSeq},#{cancel})
+	</insert>
+	<select id="selectMovieList" resultType="com.megabox.web.domain.Movie" parameterType="com.megabox.web.domain.Movie"> 
+		SELECT movie_seq AS movieSeq, movie_title AS movieTitle, director, actor, genre, filmRate, contents, start_day AS startDay, end_day AS endDay, runningTime, image, stillcut FROM Movie
+	</select>
+	<select id="selectUser" resultType="com.megabox.web.domain.Member" parameterType="com.megabox.web.domain.Member"> 
+		SELECT id,
+			   password,
+			   name,
+			   birth,
+			   email,
+			   phone,
+			   regdate
+	    FROM member 
+	    WHERE id = #{id}
+	</select>
+	<select id="count" resultType="String" parameterType="com.megabox.web.domain.Movie"> 
+		SELECT count(*) as count FROM movie 
+	</select>
+	<update id="update" parameterType="com.megabox.web.domain.Reservation">
+		UPDATE reservation SET cancel ='Y' WHERE reservation_number = #{reservationNumber}
+	</update>
+	<select id="selectOfficeList" parameterType="com.megabox.web.domain.Office" resultType="com.megabox.web.domain.Office">
+		SELECT 
+				officename AS officeName,
+				area
+	 	FROM office
+	</select>
+</mapper>
