@@ -1325,20 +1325,20 @@ reservation.index=(function(){
 		$('#myModal').append(movieUI);
 		$('#myModal').append(seatUI);
 		var today = new Date();
-	      var mm=today.getMonth()+1;
-	      var dd=today.getDate("dd");
-	      if(dd<10){dd='0'+dd} 
-	      if(mm<10){mm='0'+mm} 
-	      var week = new Array('일','월','화','수','목','금','토');
-	      var dui=' <li data-item="'+(today.getFullYear())+(mm)+(dd)+'" ><a title="선택됨" class="active" onclick="reservation.event.dateSelect(this)" href="#"> 오늘 </a></li>';
-	        for(var i=1; i <21;i++){
-	           today.setDate(today.getDate()+1);
-	           mm=today.getMonth()+1;
-	           dd=today.getDate();
-	           if(dd<10){dd='0'+dd} 
-	           if(mm<10){mm='0'+mm} 
-	             dui+= ' <li data-item="'+(today.getFullYear())+(mm)+(dd)+'" ><a title="선택됨" class="" onclick="reservation.event.dateSelect(this)" href="#"> '+today.getDate()+'('+week[today.getDay()]+')'+'</a></li>';
-	          }
+		var mm=today.getMonth()+1;
+		var dd=today.getDate("dd");
+		if(dd<10){dd='0'+dd} 
+		if(mm<10){mm='0'+mm} 
+		var week = new Array('일','월','화','수','목','금','토');
+		var dui=' <li data-item="'+(today.getFullYear())+(mm)+(dd)+'" ><a title="선택됨" class="active" onclick="reservation.event.dateSelect(this)" href="#"> 오늘 </a></li>';
+		  for(var i=1; i <21;i++){
+			  today.setDate(today.getDate()+1);
+			  mm=today.getMonth()+1;
+			  dd=today.getDate();
+			  if(dd<10){dd='0'+dd} 
+			  if(mm<10){mm='0'+mm} 
+        	  dui+= ' <li data-item="'+(today.getFullYear())+(mm)+(dd)+'" ><a title="선택됨" class="" onclick="reservation.event.dateSelect(this)" href="#"> '+today.getDate()+'('+week[today.getDay()]+')'+'</a></li>';
+          }
 		$('#datey').append(dui);
 		
 		setContentView();
@@ -1644,7 +1644,6 @@ reservation.event=(()=>{
 				$('#slidebarItems li').eq(timesel).find('a').attr('class','active');
 				//var obj=$('#slidebarItems').position();
 				$('#slidebarItems').css('left',-30*timesel);
-				
 				$.each(d.timelist,(i,j)=>{
 					if(j.filmRate=='age_19'){
 						film= '청소년관람불가';
@@ -1655,7 +1654,7 @@ reservation.event=(()=>{
 					}
 					ui+='<li>'
 						+' <div class="viewing_time"><p class="time_table"><strong>'+j.startTime+'</strong><span>~ '+j.endTime+'</span></p></div>'
-						+' <div class="movie"><p title="'+j.movieTitle+'" class="title"><span class="age '+j.filmRate+'">'+film+'</span>'
+						+' <div class="movie" data-scnum="'+j.screeningNumber+'"><p title="'+j.movieTitle+'" class="title"><span class="age '+j.filmRate+'">'+film+'</span>'
 						+' <a title="'+j.movieTitle+' 선택" href="javascript:void(0);">'+j.movieTitle+'</a></p>'
 						+' <p class="subtitle">디지털(자막)</p></div><div class="theater_wrap"><p class="theater">'+j.officeName+'<br>'+j.screen+'관</p><p class="seat">87 / 92</p></div></li>';
 				});
@@ -1669,9 +1668,9 @@ reservation.event=(()=>{
 					$('#select_seat').css('display', 'block');
 					$('#select_seat').css('z-index', '1200');
 					
-					var atitle=$(this).find('.movie').find('p').eq(0);
+					var atitle=$(this).find('.movie');
 					$.each(d.timelist,(l,k)=>{
-					if(k.movieTitle==atitle.attr('title')){
+					if(k.screeningNumber==atitle.attr('data-scnum')){
 						
 						var url=$$('x')+'/gh/seat/'+k.screeningNumber;
 						var  lines='';
@@ -1778,7 +1777,6 @@ reservation.event=(()=>{
 					
 					$('#reservation_credit').click(e=> {
 						e.preventDefault();
-						if($$('id')!=null){
 						if($('#selectno').text() == $('#selectedSeatNumbers1 li').length){
 						for(var i=0; i<$('#selectedSeatNumbers1 li').length;i++){
 							$.ajax({
@@ -1789,7 +1787,7 @@ reservation.event=(()=>{
 									'screeningNumber':$('#re_screen_num').attr('data-screeningnumber'),
 									'seatSeq':$('#selectedSeatNumbers1 li').eq(i).text(),
 									'cancel':'N',
-									'id':$$('id')
+									'id':'d'
 								}),
 								contentType : 'application/json',
 								success : d=>{
@@ -1805,14 +1803,7 @@ reservation.event=(()=>{
 						}else{
 							alert('예매하고자 하는 좌석수와 선택한 좌석수가 일치하지 않습니다.');
 						}
-						}else{
-							alert('로그인을 해주세요');
-							$('#closeAll').trigger('click');
-							$.getScript($$('j')+'megabox.js',()=>{
-								megabox.index.init();
-
-							})
-						}});
+					});
 				});
 			}else{
 				var fui = '<li class="no_movie_list"><span class="blind">조회된 상영목록이 없습니다</span></li>';
