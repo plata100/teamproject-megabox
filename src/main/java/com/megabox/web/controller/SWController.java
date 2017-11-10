@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.megabox.web.complex.CommentPagingFactory;
+import com.megabox.web.complex.PagingFactory;
 import com.megabox.web.domain.Reservation;
 import com.megabox.web.mapper.SWMapper;
 import com.megabox.web.service.IDeleteService;
@@ -127,7 +127,7 @@ public class SWController {
 		movieCommentCountService=(x)-> {
 			return mapper.selectMovieCommentCount(rsv);
 		};
-		Map<?,?> pagingMap=CommentPagingFactory.create(String.valueOf(movieCommentCountService.execute(rsv)), pageNum);
+		Map<?,?> pagingMap=PagingFactory.create(String.valueOf(movieCommentCountService.execute(rsv)), pageNum);
 		rsv.setReservationNumber(String.valueOf(pagingMap.get("start")));
 		rsv.setScreeningNumber(String.valueOf(pagingMap.get("pageSize")));
 		IListService movieCommentListService=null;
@@ -168,7 +168,7 @@ public class SWController {
 		myMovieCommentCountService=(x)-> {
 			return mapper.selectMyMovieCommentCountById(rsv);
 		};
-		Map<?,?> pagingMap=CommentPagingFactory.create(String.valueOf(myMovieCommentCountService.execute(rsv)), pageNum);
+		Map<?,?> pagingMap=PagingFactory.create(String.valueOf(myMovieCommentCountService.execute(rsv)), pageNum);
 		rsv.setReservationNumber(String.valueOf(pagingMap.get("start")));
         rsv.setScreeningNumber(String.valueOf(pagingMap.get("pageSize")));
 		myMovieCommentListService=(x)-> {
@@ -321,7 +321,7 @@ public class SWController {
 		bookingCountService=(x)-> {
 			return mapper.selectBookingCountById(rsv);
 		};
-		Map<?,?> pagingMap=CommentPagingFactory.create(String.valueOf(bookingCountService.execute(rsv)), pageNum);
+		Map<?,?> pagingMap=PagingFactory.create(String.valueOf(bookingCountService.execute(rsv)), pageNum);
 		rsv.setReservationNumber(String.valueOf(pagingMap.get("start")));
         rsv.setScreeningNumber(String.valueOf(pagingMap.get("pageSize")));
         IListService bookingListService=null;

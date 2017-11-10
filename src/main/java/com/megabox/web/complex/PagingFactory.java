@@ -3,7 +3,7 @@ package com.megabox.web.complex;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommentPagingFactory {
+public class PagingFactory {
 	public static Map<?,?> create(String cntStr, String pageNum) {
 		Map<String,Object> map=new HashMap<>();
 
